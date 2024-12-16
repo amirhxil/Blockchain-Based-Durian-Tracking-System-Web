@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MetaMask Login</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="../assets/css/styles.min.css" />
+    <script src="../assets/js/action.js"></script>
+    <style>
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            visibility: hidden;
+        }
+
+        #loadingSpinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <div id="loadingOverlay">
+            <div id="loadingSpinner"></div>
+        </div>
+        <div
+            class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center w-100">
+                <div class="row justify-content-center w-100">
+                    <div class="col-md-8 col-lg-6 col-xxl-3">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <a class="text-nowrap logo-img text-center d-block py-3 w-100">
+                                    <img src="../assets/images/logos/TraceMyDurian.png" width="180" alt="Logo">
+                                </a>
+                                <p class="text-center">Connect Your MetaMask Wallet</p>
+                                <div class="text-center">
+                                    <button id="connectWallet"
+                                        class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Connect MetaMask</button>
+                                    <p class="text-muted fs-6" id="walletAddress" style="display: none;"></p>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <p class="fs-4 mb-0 fw-bold">Need MetaMask?</p>
+                                    <a class="text-primary fw-bold ms-2" href="https://metamask.io/download/"
+                                        target="_blank">Get MetaMask</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('connectWallet').addEventListener('click', async () => {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+    
+            if (typeof window.ethereum !== "undefined") {
+                try {
+                    loadingOverlay.style.visibility = "visible";
+                    
+                    await new Promise(resolve => setTimeout(resolve, 300));
+    
+                    try {
+                        const isSuccess = await accessToMetamask();
+    
+                        
+                        if (isSuccess) {
+                         window.location.href = "index.html"; 
+                        }
+              
+                     
+    
+                    } catch (error) {
+                        if (error.code === 4001) {
+                            alert("Connection request denied. Please log in to MetaMask and try again.");
+                        } else {
+                            console.error("An error occurred while accessing MetaMask:", error);
+                        }
+                       
+                    } 
+                } catch (error) {
+                    console.error("Unexpected error occurred:", error);
+                    
+                    loadingOverlay.style.visibility = "hidden";
+                } finally {
+                    
+                    loadingOverlay.style.visibility = "hidden";
+                }
+            } else {
+                alert("MetaMask is not installed. Redirecting to the MetaMask installation page.");
+                window.location.href = "https://metamask.io/download/";
+            }
+        });
+
+        const handleLogout = () => {
+        ethereum.on('accountsChanged', (accounts) => {
+            if (accounts.length === 0) {
+                window.location.href = "login.html";  
+            }
+        });
+    }
+    
+    handleLogout();
+    </script>
+    
+</body>
+
+</html>

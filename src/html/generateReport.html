@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Durian Tracking Report</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
+  <link rel="stylesheet" href="../assets/css/styles.min.css" />
+  <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.3.0/dist/web3.min.js"></script>
+  <script src="../assets/js/action.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+</head>
+
+<body onload="accessToMetamask(); accessToContract(); checkUserProfile();">
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <div id="sidebar-placeholder"></div>
+    <div class="body-wrapper">
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Durian Tracking Report</h5>
+            <p class="mb-2">Enter the durian batch code to generate a tracking report.</p>
+            <input type="text" id="batchCodeInput" class="form-control mb-3" placeholder="Enter Batch Code">
+            <button class="btn btn-primary" onclick="generateTrackingReport()">Generate Report</button>
+          </br>
+            <button class="btn btn-success mt-2" id="exportPDFButton" style="display: none;" onclick="exportReportAsPDF()" >Export as PDF</button>
+
+            <div id="reportContent" class="mt-4" style="display: none;">
+              <h6 class="fw-semibold">Durian Tracking Details</h6>
+              <p><strong>Batch Code:</strong> <span id="reportBatchCode"></span></p>
+              <p><strong>Durian Type:</strong> <span id="reportDurianType"></span></p>
+              <p><strong>Current State:</strong> <span id="reportCurrentState"></span></p>
+              <p><strong>Harvest Date:</strong> <span id="reportHarvestDate"></span></p>
+              <p><strong>Farm Location:</strong> <span id="reportFarmLocation"></span></p>
+              <p><strong>Distributor:</strong> <span id="reportDistributor"></span></p>
+              <p><strong>Retailer:</strong> <span id="reportRetailer"></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/sidebarmenu.js"></script>
+  <script src="../assets/js/app.min.js"></script>
+  <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#sidebar-placeholder").load("sidebar.html");
+    });
+  </script>
+</body>
+
+</html>
